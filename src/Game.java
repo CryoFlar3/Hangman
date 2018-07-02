@@ -11,6 +11,9 @@ public class Game {
     }
 
     public boolean applyGuess(char letter){
+        if (mMisses.indexOf(letter) != -1 || mHits.indexOf(letter) != -1){
+            throw new IllegalArgumentException(letter + " has already been guessed");
+        }
         boolean isHit = mAnswer.indexOf(letter) != -1;
         if (isHit){
             mHits += letter;
@@ -20,7 +23,7 @@ public class Game {
         return isHit;
     }
 
-    public int getRemaingTries(){
+    public int getRemainingTries(){
         return MAX_MISSES - mMisses.length();
     }
 
