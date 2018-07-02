@@ -5,15 +5,24 @@ public class Game {
     private String mMisses;
 
     public Game(String answer){
-        mAnswer = answer;
+        mAnswer = answer.toLowerCase();
         mHits = "";
         mMisses = "";
     }
 
-    public boolean applyGuess(char letter){
+    private char normalizeGuess(char letter){
+        if (!Character.isLetter(letter)){
+            throw new IllegalArgumentException("A letter is required");
+        }
+        letter = Character.toLowerCase(letter);
         if (mMisses.indexOf(letter) != -1 || mHits.indexOf(letter) != -1){
             throw new IllegalArgumentException(letter + " has already been guessed");
         }
+        return letter;
+    }
+
+    public boolean applyGuess(char letter){
+        letter = normalizeGuess(letter);
         boolean isHit = mAnswer.indexOf(letter) != -1;
         if (isHit){
             mHits += letter;
