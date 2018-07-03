@@ -1,17 +1,19 @@
+import java.util.Random;
+
 public class Game {
     public static final int MAX_MISSES = 7;
-    private String mAnswer;
-    private String mHits;
-    private String mMisses;
+    private String answer;
+    private String hits;
+    private String misses;
 
-    public Game(String answer){
-        mAnswer = answer.toLowerCase();
-        mHits = "";
-        mMisses = "";
+    public Game(){
+        answer = getWord();
+        hits = "";
+        misses = "";
     }
 
-    public String getmAnswer() {
-        return mAnswer;
+    public String getAnswer() {
+        return answer;
     }
 
     private char normalizeGuess(char letter){
@@ -19,7 +21,7 @@ public class Game {
             throw new IllegalArgumentException("A letter is required");
         }
         letter = Character.toLowerCase(letter);
-        if (mMisses.indexOf(letter) != -1 || mHits.indexOf(letter) != -1){
+        if (misses.indexOf(letter) != -1 || hits.indexOf(letter) != -1){
             throw new IllegalArgumentException(letter + " has already been guessed");
         }
         return letter;
@@ -27,29 +29,83 @@ public class Game {
 
     public boolean applyGuess(char letter){
         letter = normalizeGuess(letter);
-        boolean isHit = mAnswer.indexOf(letter) != -1;
+        boolean isHit = answer.indexOf(letter) != -1;
         if (isHit){
-            mHits += letter;
+            hits += letter;
         } else {
-            mMisses += letter;
+            misses += letter;
         }
         return isHit;
     }
 
     public int getRemainingTries(){
-        return MAX_MISSES - mMisses.length();
+        return MAX_MISSES - misses.length();
     }
 
     public String getCurrentProgress(){
         String progress = "";
-        for (char letter : mAnswer.toCharArray()){
+        for (char letter : answer.toCharArray()){
             char display = '-';
-            if (mHits.indexOf(letter) != -1){
+            if (hits.indexOf(letter) != -1){
                 display = letter;
             }
             progress += display;
         }
         return progress;
+    }
+
+    private String getWord(){
+        Random random = new Random();
+        String[] words = {"Awkward",
+                "Bagpipes",
+                "Banjo",
+                "Bungler",
+                "Croquet",
+                "Crypt",
+                "Dwarves",
+                "Fervid",
+                "Fishhook",
+                "Fjord",
+                "Gazebo",
+                "Gypsy",
+                "Haiku",
+                "Haphazard",
+                "Hyphen",
+                "Ivory",
+                "Jazzy",
+                "Jiffy",
+                "Jinx",
+                "Jukebox",
+                "Kayak",
+                "Kiosk",
+                "Klutz",
+                "Memento",
+                "Mystify",
+                "Numbskull",
+                "Ostracize",
+                "Oxygen",
+                "Pajama",
+                "Phlegm",
+                "Pixel",
+                "Polka",
+                "Quad",
+                "Quip",
+                "Rhythmic",
+                "Rogue",
+                "Sphinx",
+                "Squawk",
+                "Swivel",
+                "Toady",
+                "Twelfth",
+                "Unzip",
+                "Waxy",
+                "Wildebeest",
+                "Yacht",
+                "Zealous",
+                "Zigzag",
+                "Zippy",
+                "Zombie"};
+        return answer = words[random.nextInt(words.length)].toLowerCase();
     }
 
     public boolean isWon(){
