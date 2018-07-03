@@ -10,6 +10,10 @@ public class Game {
         mMisses = "";
     }
 
+    public String getmAnswer() {
+        return mAnswer;
+    }
+
     private char normalizeGuess(char letter){
         if (!Character.isLetter(letter)){
             throw new IllegalArgumentException("A letter is required");
@@ -46,5 +50,9 @@ public class Game {
             progress += display;
         }
         return progress;
+    }
+
+    public boolean isWon(){
+        return getCurrentProgress().indexOf('-') == -1;
     }
 }
